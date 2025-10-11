@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:vm="clr-namespace:WiiYiiHudNavigator.Common.ViewModels"
+             xmlns:behaviors="clr-namespace:WiiYiiHudNavigator.Common.Behaviors"
+             x:Class="WiiYiiHudNavigator.Common.Views.Components.PermissionsPanel"
+			 Loaded="ContentView_Loaded"
+			 Unloaded="ContentView_Unloaded"
+			 x:DataType="vm:PermissionsPanelVm" 
+			 IsVisible="{Binding AnyPermissionRequired}">
+	<ContentView.Resources>
+		<ResourceDictionary>
+			<!-- Permission Item Style -->
+			<Style x:Key="PermissionItem" TargetType="Border">
+				<Setter Property="Background" Value="{StaticResource HudItemBg}" />
+				<Setter Property="StrokeShape" Value="RoundRectangle 8" />
+				<Setter Property="Padding" Value="8" />
+				<Setter Property="StrokeThickness" Value="0" />
+			</Style>
+
+			<!-- Permission Button Style -->
+			<Style x:Key="PermissionButton" TargetType="Button" BasedOn="{StaticResource GradientButton}">
+				<Setter Property="FontSize" Value="13" />
+				<Setter Property="Padding" Value="12,4" />
+				<Setter Property="VerticalOptions" Value="Center" />
+				<Setter Property="WidthRequest" Value="80" />
+			</Style>
+		</ResourceDictionary>
+	</ContentView.Resources>
+
+
+	<!-- Permissions Section -->
+	<Border Style="{StaticResource GlassCard}">
+		<StackLayout>
+			<!-- Card Header -->
+			<StackLayout Style="{StaticResource CardHeader}">
+				<Border Style="{StaticResource IconWrapper}">
+					<Label Text="🔒" FontSize="16" HorizontalOptions="Center" VerticalOptions="Center" TextColor="White"/>
+				</Border>
+				<Label Text="Permissions" Style="{StaticResource CardTitle}"/>
+			</StackLayout>
+
+			<!-- Permissions List -->
+			<StackLayout Spacing="10">
+				<!-- Notifications Permission -->
+				<Border Style="{StaticResource PermissionItem}" IsVisible="{Binding PermissionRequiredForNotification}">
+					<Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="4">
+						<Border Grid.Column="0" Style="{StaticResource IconStandard}">
+							<Label Text="🔔" FontSize="16" HorizontalOptions="Center" VerticalOptions="Center"/>
+						</Border>
+
+						<StackLayout Grid.Column="1" VerticalOptions="Center">
+							<Label Text="Read Notifications" FontSize="14" FontAttributes="Bold" 
+                                               TextColor="{StaticResource TextPrimary}"/>
+							<Label Text="Please grant access to System Notifications. This is required to read the navigation directions." FontSize="12" 
+                                               TextColor="{StaticResource TextMuted}"/>
+						</StackLayout>
+
+						<Button x:Name="NotificationPermissionButton" Grid.Column="2" Text="Grant"
+								Command="{Binding RequestNotificationPermissionCommand}"
+								Style="{StaticResource PermissionButton}">
+							<Button.Behaviors>
+								<behaviors:AnimatedButtonBehavior />
+							</Button.Behaviors>
+						</Button>
+						
+					</Grid>
+				</Border>
+
+				<!-- Bluetooth Permission -->
+				<Border Style="{StaticResource PermissionItem}" IsVisible="{Binding PermissionRequiredForBluetooth}">
+					<Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="4">
+						<Border Grid.Column="0" Style="{StaticResource IconStandard}">
+							<Image Source="bluetooth.png" WidthRequest="20" HorizontalOptions="Center" VerticalOptions="Center"/>
+						</Border>
+
+						<StackLayout Grid.Column="1" VerticalOptions="Center">
+							<Label Text="Bluetooth" FontSize="14" FontAttributes="Bold" 
+                                               TextColor="{StaticResource TextPrimary}"/>
+							<Label Text="Allow app to use Bluetooth" FontSize="12" 
+                                               TextColor="{StaticResource TextMuted}"/>
+						</StackLayout>
+
+						<Button x:Name="BluetoothPermissionButton" Grid.Column="2" Text="Grant"
+								Command="{Binding RequestBluetoothPermissionCommand}"
+								Style="{StaticResource PermissionButton}">
+							<Button.Behaviors>
+								<behaviors:AnimatedButtonBehavior />
+							</Button.Behaviors>
+						</Button>
+					</Grid>
+				</Border>
+
+				<!-- Battery Optimization Permission -->
+				<Border Style="{StaticResource PermissionItem}" IsVisible="{Binding RequestRequiredIgnoringBatteryOptimization}">
+					<Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="4">
+						<Border Grid.Column="0" Style="{StaticResource IconStandard}">
+							<Label Text="🔋" FontSize="16" HorizontalOptions="Center" VerticalOptions="Center"/>
+						</Border>
+
+						<StackLayout Grid.Column="1" VerticalOptions="Center">
+							<Label Text="Battery Optimization" FontSize="14" FontAttributes="Bold" 
+                                               TextColor="{StaticResource TextPrimary}"/>
+							<Label Text="Disable battery optimization for reliable notification reader service operation" FontSize="12" 
+                                               TextColor="{StaticResource TextMuted}"/>
+						</StackLayout>
+
+						<Button x:Name="BatteryOptimizationPermissionButton" Grid.Column="2" Text="Grant"
+								Command="{Binding RequestIgnoreBatteryOptimizationCommand}"
+								Style="{StaticResource PermissionButton}">
+							<Button.Behaviors>
+								<behaviors:AnimatedButtonBehavior />
+							</Button.Behaviors>
+						</Button>
+					</Grid>
+				</Border>
+
+				<!-- Auto Start Permission -->
+				<!--<Border Style="{StaticResource PermissionItem}">
+					<Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="4">
+						<Border Grid.Column="0" Style="{StaticResource IconWrapper}">
+							<Label Text="🚀" FontSize="16" HorizontalOptions="Center" VerticalOptions="Center"/>
+						</Border>
+
+						<StackLayout Grid.Column="1" VerticalOptions="Center">
+							<Label Text="Auto Start" FontSize="14" FontAttributes="Bold" 
+                                               TextColor="{StaticResource TextPrimary}"/>
+							<Label Text="Allow app to start automatically" FontSize="12" 
+                                               TextColor="{StaticResource TextMuted}"/>
+						</StackLayout>
+
+						<Button x:Name="AutoStartPermissionButton" Grid.Column="2" Text="Grant"
+                                            Style="{StaticResource PermissionButton}"/>
+					</Grid>
+				</Border>-->
+			</StackLayout>
+		</StackLayout>
+	</Border>
+</ContentView>
