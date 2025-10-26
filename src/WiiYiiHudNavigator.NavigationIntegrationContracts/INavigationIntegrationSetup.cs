@@ -1,5 +1,4 @@
-﻿
-namespace WiiYiiHudNavigator.NavigationIntegrationContracts;
+﻿namespace WiiYiiHudNavigator.NavigationIntegrationContracts;
 
 public interface INavigationIntegrationSetup
 {
@@ -10,15 +9,37 @@ public interface INavigationIntegrationSetup
 	StartNavigationIntegrationButton GetStartNavigationButton();
 
 	INavigationIntegrationInterface GetInterface();
-	
+
 	void OnAppLoaded(IServiceProvider serviceProvider);
 }
 
-public record StartNavigationIntegrationButton(string Title, string ShortDescription, string IconFile, string PriceTagTitle);
+public class StartNavigationIntegrationButton(
+	string title,
+	string shortDescription,
+	string? iconFileFromMainApp,
+	ImageSource? iconImageFromSource,
+	string priceTagTitle)
+{
+	public string Title { get; init; } = title;
+
+	public string ShortDescription { get; init; } = shortDescription;
+
+	/// <summary>
+	/// Icon file from main app as MauiImage, has higher priority over IconImageFromSource
+	/// </summary>
+	public string? IconFileFromMainApp { get; init; } = iconFileFromMainApp;
+
+	/// <summary>
+	/// Image source that optionally defined by the integration
+	/// </summary>
+	public ImageSource? IconImageFromSource { get; init; } = iconImageFromSource;
+
+	public string PriceTagTitle { get; init; } = priceTagTitle;
+}
 
 public interface INavigationIntegrationInterface
 {
-	INavigationIntegrationSetup Setup {  get; }
+	INavigationIntegrationSetup Setup { get; }
 
 	ContentView? GetNavigationUiContent();
 

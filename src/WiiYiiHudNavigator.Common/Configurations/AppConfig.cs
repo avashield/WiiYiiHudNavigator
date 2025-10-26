@@ -1,10 +1,14 @@
-﻿namespace WiiYiiHudNavigator.Common.Configurations;
+﻿using Ava.Common.Logging;
+using System.Text.Json;
+
+namespace WiiYiiHudNavigator.Common.Configurations;
 
 public interface IAppConfig
 {
 	bool WelcomeCompleted { get; set; }
 	string? LastConnectedDeviceName { get; set; }
 	string? LastConnectedDeviceUid { get; set; }
+	DynamicIntegrationsConfig[]? DynamicIntegrations { get; set; }
 }
 
 public class AppConfig : IAppConfig
@@ -63,4 +67,49 @@ public class AppConfig : IAppConfig
 			Preferences.Set(nameof(LastConnectedDeviceUid), value);
 		}
 	}
+
+	private DynamicIntegrationsConfig[]? _dynamicIntegrations;
+	public DynamicIntegrationsConfig[]? DynamicIntegrations
+	{
+		get
+		{
+			if (_dynamicIntegrations == null)
+			{
+				_dynamicIntegrations = GetDynamicIntegrations();
+			}
+			return _dynamicIntegrations;
+		}
+		set
+		{
+			_dynamicIntegrations = value;
+			if (value != null)
+			{
+				var json = JsonSerializer.Serialize(value);
+				Preferences.Set(nameof(DynamicIntegrations), json);
+			}
+			else
+			{
+				Preferences.Remove(nameof(DynamicIntegrations));
+			}
+		}
+	}
+
+	public static DynamicIntegrationsConfig[]? GetDynamicIntegrations()
+	{
+		try
+		{
+			var json = Preferences.Get(nameof(DynamicIntegrations), defaultValue: null);
+			if (json.NotNullOrWhiteSpace())
+			{
+				return JsonSerializer.Deserialize<DynamicIntegrationsConfig[]>(json);
+			}
+		}
+		catch (Exception ex)
+		{
+			Log.Error?.Log($"DynamicIntegrationsLoader: Failed to read EnabledDynamicIntegrations from preferences: {ex.Message}");
+		}
+		return null;
+	}
 }
+
+public record DynamicIntegrationsConfig(string? KnownTypeName, string? DynamicDllName, bool Enabled);
