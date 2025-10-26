@@ -4,7 +4,7 @@ public interface INavigationIntegrationSetup
 {
 	Guid Id { get; }
 
-	void SetupServices(IServiceCollection services);
+	void SetupServices(MauiAppBuilder builder, IServiceCollection services);
 
 	StartNavigationIntegrationButton GetStartNavigationButton();
 

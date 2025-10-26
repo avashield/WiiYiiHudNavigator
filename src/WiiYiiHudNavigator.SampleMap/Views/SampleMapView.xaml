@@ -1,39 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:vm="clr-namespace:WiiYiiHudNavigator.SampleMap.ViewModels"
+     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+     xmlns:vm="clr-namespace:WiiYiiHudNavigator.SampleMap.ViewModels"
 			 xmlns:behaviors="clr-namespace:WiiYiiHudNavigator.Common.Behaviors;assembly=WiiYiiHudNavigator.Common"
 			 xmlns:commoncmp="clr-namespace:WiiYiiHudNavigator.Common.Views.Components;assembly=WiiYiiHudNavigator.Common"
 			 xmlns:converters="clr-namespace:WiiYiiHudNavigator.Common.Converters;assembly=WiiYiiHudNavigator.Common"
-             x:Class="WiiYiiHudNavigator.SampleMap.Views.SampleMapView"
+			 xmlns:maps="clr-namespace:Microsoft.Maui.Controls.Maps;assembly=Microsoft.Maui.Controls.Maps"
+      x:Class="WiiYiiHudNavigator.SampleMap.Views.SampleMapView"
 			 Loaded="ContentView_Loaded"
 			 Unloaded="ContentView_Unloaded"
 			 x:DataType="vm:SampleMapVm">
 
 	<ContentView.Resources>
 		<ResourceDictionary>
-			<!-- Map Marker Style -->
-			<Style x:Key="MapMarker" TargetType="Border">
-				<Setter Property="WidthRequest" Value="32" />
-				<Setter Property="HeightRequest" Value="32" />
-				<Setter Property="Background">
-					<Setter.Value>
-						<LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-							<GradientStop Color="#FF6B9DFF" Offset="0.0" />
-							<GradientStop Color="#FF4A7FE5" Offset="1.0" />
-						</LinearGradientBrush>
-					</Setter.Value>
-				</Setter>
-				<Setter Property="StrokeShape" Value="RoundRectangle 16" />
-				<Setter Property="StrokeThickness" Value="2" />
-				<Setter Property="Stroke" Value="White" />
-				<Setter Property="Shadow">
-					<Setter.Value>
-						<Shadow Brush="Black" Opacity="0.4" Radius="8" Offset="0,4" />
-					</Setter.Value>
-				</Setter>
-			</Style>
-
 			<!-- Info Panel Style -->
 			<Style x:Key="InfoPanel" TargetType="Border">
 				<Setter Property="Background">
@@ -56,65 +35,25 @@
 	</ContentView.Resources>
 
 	<Grid>
-		<!-- Main Map Area -->
-		<Border Background="#F0F4F8" StrokeThickness="0">
-			<!-- Grid pattern background for map feel -->
-			<Grid>
-				<!-- Map Canvas with Tap Gesture -->
-				<AbsoluteLayout x:Name="MapCanvas" BackgroundColor="Transparent">
-					<AbsoluteLayout.GestureRecognizers>
-						<TapGestureRecognizer Tapped="OnMapTapped" />
-					</AbsoluteLayout.GestureRecognizers>
-					
-					<!-- Grid Lines for Map Effect -->
-					<BoxView Color="#E0E6ED" HeightRequest="1" 
-							 AbsoluteLayout.LayoutBounds="0, 0.25, 1, 1" 
-							 AbsoluteLayout.LayoutFlags="All" />
-					<BoxView Color="#E0E6ED" HeightRequest="1" 
-							 AbsoluteLayout.LayoutBounds="0, 0.5, 1, 1" 
-							 AbsoluteLayout.LayoutFlags="All" />
-					<BoxView Color="#E0E6ED" HeightRequest="1" 
-							 AbsoluteLayout.LayoutBounds="0, 0.75, 1, 1" 
-							 AbsoluteLayout.LayoutFlags="All" />
-					<BoxView Color="#E0E6ED" WidthRequest="1" 
-							 AbsoluteLayout.LayoutBounds="0.25, 0, 1, 1" 
-							 AbsoluteLayout.LayoutFlags="All" />
-					<BoxView Color="#E0E6ED" WidthRequest="1" 
-							 AbsoluteLayout.LayoutBounds="0.5, 0, 1, 1" 
-							 AbsoluteLayout.LayoutFlags="All" />
-					<BoxView Color="#E0E6ED" WidthRequest="1" 
-							 AbsoluteLayout.LayoutBounds="0.75, 0, 1, 1" 
-							 AbsoluteLayout.LayoutFlags="All" />
-
-					<!-- Current Location Marker (Starting Point) -->
-					<Border x:Name="CurrentLocationMarker" Style="{StaticResource MapMarker}"
-							AbsoluteLayout.LayoutBounds="0.5, 0.5, -1, -1"
-							AbsoluteLayout.LayoutFlags="PositionProportional">
-						<Label Text="📍" FontSize="18" 
-							   HorizontalOptions="Center" VerticalOptions="Center" />
-					</Border>
-
-					<!-- Destination Marker (will appear on tap) -->
-					<Border x:Name="DestinationMarker" Style="{StaticResource MapMarker}"
-							IsVisible="False">
-						<Label Text="🎯" FontSize="18" 
-							   HorizontalOptions="Center" VerticalOptions="Center" />
-					</Border>
-
-					<!-- Route Line (will appear between markers) -->
-					<BoxView x:Name="RouteLine" Color="#80FF6B9DFF" 
-							 WidthRequest="3" 
-							 IsVisible="False" />
-				</AbsoluteLayout>
-			</Grid>
-		</Border>
+		<!-- Real Map Control -->
+		<maps:Map x:Name="MapControl" 
+				  IsShowingUser="True"
+				  MapClicked="OnMapClicked">
+			<maps:Map.ItemTemplate>
+				<DataTemplate>
+					<maps:Pin Location="{Binding Location}"
+							  Label="{Binding Label}"
+							  Address="{Binding Address}" />
+				</DataTemplate>
+			</maps:Map.ItemTemplate>
+		</maps:Map>
 
 		<!-- Top Info Panel -->
 		<Border Style="{StaticResource InfoPanel}" 
 				Margin="20,20,20,0"
 				VerticalOptions="Start">
 			<StackLayout Spacing="12">
-				<Label Text="🗺️ Interactive Sample Map" 
+				<Label Text="🗺️ Interactive Navigation Map" 
 					   FontSize="20" 
 					   FontAttributes="Bold"
 					   TextColor="#1A237E" />
@@ -161,7 +100,7 @@
 				<StackLayout Grid.Row="0" Grid.Column="1">
 					<Label Text="Duration" FontSize="12" TextColor="#757575" HorizontalTextAlignment="Center"/>
 					<Label Text="{Binding DurationText}" 
-						   FontSize="18" 
+						FontSize="18" 
 						   FontAttributes="Bold"
 						   TextColor="#1A237E"
 						   HorizontalTextAlignment="Center"/>
@@ -183,7 +122,7 @@
 					<Label Text="{Binding CurrentRoad}" 
 						   FontSize="14" 
 						   FontAttributes="Bold"
-						   TextColor="#424242"
+						 TextColor="#424242"
 						   HorizontalTextAlignment="Center"/>
 				</StackLayout>
 			</Grid>

@@ -14,14 +14,16 @@ public class SampleMapSetup : INavigationIntegrationSetup
 	public StartNavigationIntegrationButton GetStartNavigationButton() =>
 		new(
 			title: "Sample Map - Free",
-			shortDescription: "Just a Sample App",
+			shortDescription: "Interactive Map Navigation",
 			priceTagTitle: "FREE",
 			iconFileFromMainApp: null,
 			iconImageFromSource: ImageSource.FromResource($"{typeof(SampleMapSetup).Namespace}.Resources.Images.map_icon.png", typeof(SampleMapSetup).Assembly)
 		);
 
-	public void SetupServices(IServiceCollection services)
+	public void SetupServices(MauiAppBuilder builder, IServiceCollection services)
 	{
+		builder.UseMauiMaps();
+
 		services.AddTransient<SampleMapView>();
 		services.AddSingleton<ISampleMapInterface, SampleMapInterface>();
 
@@ -47,5 +49,16 @@ public class SampleMapSetup : INavigationIntegrationSetup
 	{
 		_serviceProvider = serviceProvider;
 		RaiseOnAppLoaded();
+	}
+
+	/// <summary>
+	/// Configures the MAUI app builder to use Maps.
+	/// Call this from your main app's MauiProgram.cs: builder.UseMauiMaps()
+	/// </summary>
+	public static void ConfigureMapServices(MauiAppBuilder builder)
+	{
+#if ANDROID || IOS || MACCATALYST
+		builder.UseMauiMaps();
+#endif
 	}
 }

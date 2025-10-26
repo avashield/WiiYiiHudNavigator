@@ -10,6 +10,9 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<IsTrimmable>false</IsTrimmable>
+		
+		<!-- Force copying all dependency assemblies to output directory -->
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">15.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">15.0</SupportedOSPlatformVersion>
@@ -31,6 +34,7 @@
 		<PackageReference Include="CommunityToolkit.Maui" Version="12.2.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
 		<PackageReference Include="Ava.Common.Logging" Version="1.0.0-release.0.1.25284.521" />
+		<PackageReference Include="Microsoft.Maui.Controls.Maps" Version="9.0.120" PrivateAssets="none" />
 	</ItemGroup>
 
 	<ItemGroup Condition="$(TargetFramework.Contains('-android')) != true">

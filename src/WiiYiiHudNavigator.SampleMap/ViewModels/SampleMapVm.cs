@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.Maui.Maps;
 using WiiYiiHudNavigator.Common.Hud;
 using WiiYiiHudNavigator.Common.Models;
 using WiiYiiHudNavigator.Common.ViewModels;
@@ -38,27 +39,23 @@ internal partial class SampleMapVm : BaseViewModel
 		_hudConnection = hudConnection;
 	}
 
-	public async Task SendNavigationToDestination(double destX, double destY, double mapWidth, double mapHeight)
+	public async Task SendNavigationToDestination(Location currentLocation, Location destinationLocation)
 	{
-		// Calculate distance based on tap position (normalized to realistic values)
-		var centerX = mapWidth / 2;
-		var centerY = mapHeight / 2;
-		var pixelDistance = Math.Sqrt(Math.Pow(destX - centerX, 2) + Math.Pow(destY - centerY, 2));
-		
-		// Convert pixel distance to meters (scale: 1 pixel ≈ 10 meters)
-		var distanceInMeters = pixelDistance * 10;
+		// Calculate actual distance using Haversine formula
+		var distanceInKm = CalculateDistance(currentLocation, destinationLocation);
+		var distanceInMeters = distanceInKm * 1000;
 		
 		// Calculate duration based on average speed (50 km/h)
-		var durationInSeconds = (distanceInMeters / 1000) * 72; // 72 seconds per km at 50 km/h
+		var durationInSeconds = (distanceInKm / 50) * 3600; // hours to seconds
 
-		// Determine direction based on tap position relative to center
-		var direction = GetDirectionFromPosition(destX, destY, centerX, centerY);
+		// Determine direction based on bearing
+		var direction = GetDirectionFromBearing(currentLocation, destinationLocation);
 		var secondDirection = GetRandomSecondTurn();
 
 		// Generate random road names
 		var roadNames = new[] { "Main Street", "Oak Avenue", "Park Boulevard", "River Road", "Hill Drive", "Maple Lane", "Broadway", "5th Avenue" };
 		var nextRoad = roadNames[_random.Next(roadNames.Length)];
-		var destinationName = $"Point at ({destX:F0}, {destY:F0})";
+		var destinationName = $"Destination ({destinationLocation.Latitude:F4}, {destinationLocation.Longitude:F4})";
 
 		// Calculate next turn distance (typically 10-30% of total distance)
 		var nextTurnDistance = distanceInMeters * (_random.NextDouble() * 0.2 + 0.1);
@@ -88,25 +85,56 @@ internal partial class SampleMapVm : BaseViewModel
 		await _hudConnection.UpdateNavigationData(navigationData);
 	}
 
-	private DirectionInstruction GetDirectionFromPosition(double destX, double destY, double centerX, double centerY)
+	private double CalculateDistance(Location start, Location end)
 	{
-		// Calculate angle from center to destination
-		var angle = Math.Atan2(destY - centerY, destX - centerX) * (180 / Math.PI);
-		
-		// Normalize angle to 0-360
-		if (angle < 0) angle += 360;
+		// Haversine formula
+		var R = 6371; // Earth's radius in kilometers
+		var dLat = ToRadians(end.Latitude - start.Latitude);
+		var dLon = ToRadians(end.Longitude - start.Longitude);
 
-		// Map angle to direction
-		return angle switch
+		var a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
+				Math.Cos(ToRadians(start.Latitude)) * Math.Cos(ToRadians(end.Latitude)) *
+				Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
+
+		var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+		return R * c;
+	}
+
+	private double ToRadians(double degrees)
+	{
+		return degrees * Math.PI / 180;
+	}
+
+	private double ToDegrees(double radians)
+	{
+		return radians * 180 / Math.PI;
+	}
+
+	private DirectionInstruction GetDirectionFromBearing(Location start, Location end)
+	{
+		// Calculate bearing from start to end
+		var dLon = ToRadians(end.Longitude - start.Longitude);
+		var lat1 = ToRadians(start.Latitude);
+		var lat2 = ToRadians(end.Latitude);
+
+		var y = Math.Sin(dLon) * Math.Cos(lat2);
+		var x = Math.Cos(lat1) * Math.Sin(lat2) - Math.Sin(lat1) * Math.Cos(lat2) * Math.Cos(dLon);
+		var bearing = ToDegrees(Math.Atan2(y, x));
+		
+		// Normalize bearing to 0-360
+		bearing = (bearing + 360) % 360;
+
+		// Map bearing to direction instruction
+		return bearing switch
 		{
-			>= 337.5 or < 22.5 => DirectionInstruction.Right,
-			>= 22.5 and < 67.5 => DirectionInstruction.RightWide,
-			>= 67.5 and < 112.5 => DirectionInstruction.Straight,
-			>= 112.5 and < 157.5 => DirectionInstruction.LeftWide,
-			>= 157.5 and < 202.5 => DirectionInstruction.Left,
-			>= 202.5 and < 247.5 => DirectionInstruction.LeftSharpSE,
-			>= 247.5 and < 292.5 => DirectionInstruction.Straight,
-			_ => DirectionInstruction.RightSharpSE
+			>= 337.5 or < 22.5 => DirectionInstruction.Straight,      // North
+			>= 22.5 and < 67.5 => DirectionInstruction.RightWide,     // Northeast
+			>= 67.5 and < 112.5 => DirectionInstruction.Right, // East
+			>= 112.5 and < 157.5 => DirectionInstruction.RightSharpSE, // Southeast
+			>= 157.5 and < 202.5 => DirectionInstruction.Straight,    // South
+			>= 202.5 and < 247.5 => DirectionInstruction.LeftSharpSE, // Southwest
+			>= 247.5 and < 292.5 => DirectionInstruction.Left,        // West
+			_ => DirectionInstruction.LeftWide             // Northwest
 		};
 	}
 
