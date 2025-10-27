@@ -73,20 +73,6 @@ Plugins can be built in **.NET (C#)** as independent assemblies and loaded dynam
 	    void OnAppLoaded(IServiceProvider serviceProvider);
     }
 
-    public class StartNavigationIntegrationButton(
-	    string title,
-	    string shortDescription,
-	    string? iconFileFromMainApp,
-	    ImageSource? iconImageFromSource,
-	    string priceTagTitle)
-    {
-	    public string Title { get; init; } = title;
-	    public string ShortDescription { get; init; } = shortDescription;
-	    public string? IconFileFromMainApp { get; init; } = iconFileFromMainApp;
-	    public ImageSource? IconImageFromSource { get; init; } = iconImageFromSource;
-	    public string PriceTagTitle { get; init; } = priceTagTitle;
-    }
-
     public interface INavigationIntegrationInterface
     {
 	    INavigationIntegrationSetup Setup { get; }
