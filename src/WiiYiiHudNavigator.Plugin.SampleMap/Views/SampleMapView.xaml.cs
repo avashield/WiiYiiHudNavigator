@@ -1,8 +1,8 @@
 using Microsoft.Maui.Controls.Maps;
 using Microsoft.Maui.Maps;
-using WiiYiiHudNavigator.SampleMap.ViewModels;
+using WiiYiiHudNavigator.Plugin.SampleMap.ViewModels;
 
-namespace WiiYiiHudNavigator.SampleMap.Views;
+namespace WiiYiiHudNavigator.Plugin.SampleMap.Views;
 
 public partial class SampleMapView : ContentView
 {

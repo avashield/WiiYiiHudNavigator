@@ -1,8 +1,8 @@
 ﻿using WiiYiiHudNavigator.NavigationIntegrationContracts;
-using WiiYiiHudNavigator.SampleMap.ViewModels;
-using WiiYiiHudNavigator.SampleMap.Views;
+using WiiYiiHudNavigator.Plugin.SampleMap.ViewModels;
+using WiiYiiHudNavigator.Plugin.SampleMap.Views;
 
-namespace WiiYiiHudNavigator.SampleMap;
+namespace WiiYiiHudNavigator.Plugin.SampleMap;
 
 public class SampleMapSetup : INavigationIntegrationSetup
 {

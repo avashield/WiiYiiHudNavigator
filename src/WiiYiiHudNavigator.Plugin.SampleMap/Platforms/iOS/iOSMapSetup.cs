@@ -1,6 +1,6 @@
 // iOS automatically uses Apple Maps, no additional setup required beyond Info.plist permissions
 
-namespace WiiYiiHudNavigator.SampleMap.Platforms;
+namespace WiiYiiHudNavigator.Plugin.SampleMap.Platforms;
 
 public static class iOSMapSetup
 {

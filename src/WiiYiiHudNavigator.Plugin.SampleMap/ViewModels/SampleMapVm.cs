@@ -9,7 +9,7 @@ using WiiYiiHudNavigator.Common.Hud;
 using WiiYiiHudNavigator.Common.Models;
 using WiiYiiHudNavigator.Common.ViewModels;
 
-namespace WiiYiiHudNavigator.SampleMap.ViewModels;
+namespace WiiYiiHudNavigator.Plugin.SampleMap.ViewModels;
 
 internal partial class SampleMapVm : BaseViewModel
 {

@@ -58,12 +58,12 @@ In your MainActivity (Android) or AppDelegate (iOS), you can verify the setup:
 ```csharp
 // Android MainActivity.OnCreate
 #if ANDROID
-WiiYiiHudNavigator.SampleMap.Platforms.AndroidMapSetup.VerifySetup();
+WiiYiiHudNavigator.Plugin.SampleMap.Platforms.AndroidMapSetup.VerifySetup();
 #endif
 
 // iOS AppDelegate.FinishedLaunching
 #if IOS
-WiiYiiHudNavigator.SampleMap.Platforms.iOSMapSetup.VerifySetup();
+WiiYiiHudNavigator.Plugin.SampleMap.Platforms.iOSMapSetup.VerifySetup();
 #endif
 ```
 

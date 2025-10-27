@@ -10,7 +10,7 @@ using Android.Content.PM;
 // Note: Add your Google Maps API Key in AndroidManifest.xml:
 // <meta-data android:name="com.google.android.geo.API_KEY" android:value="YOUR_API_KEY_HERE" />
 
-namespace WiiYiiHudNavigator.SampleMap.Platforms;
+namespace WiiYiiHudNavigator.Plugin.SampleMap.Platforms;
 
 public static class AndroidMapSetup
 {

@@ -1,7 +1,7 @@
 ﻿using WiiYiiHudNavigator.NavigationIntegrationContracts;
-using WiiYiiHudNavigator.SampleMap.Views;
+using WiiYiiHudNavigator.Plugin.SampleMap.Views;
 
-namespace WiiYiiHudNavigator.SampleMap;
+namespace WiiYiiHudNavigator.Plugin.SampleMap;
 
 // All the code in this file is included in all platforms.
 

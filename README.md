@@ -45,41 +45,101 @@ Plugins can be built in **.NET (C#)** as independent assemblies and loaded dynam
 1. Clone this repository:
    ```bash
    git clone https://github.com/AvaShieldAdmin/WiiYiiHudNavigator.git
-   ````
+   ```
 
-2. Create a new plugin project (e.g., `WiiYiiHudNavigator.Waze`).
+2. Create a new plugin project (e.g., `WiiYiiHudNavigator.Plugin.Waze`).
 
-3. Implement the shared interfaces:
+   **Important:** The DLL name must follow the format `WiiYiiHudNavigator.Plugin.*.dll` for the app to detect it.
+   
+   - **Recommended:** Name your project following the pattern `WiiYiiHudNavigator.Plugin.YourProviderName`
+   - **Alternative:** Use the `<AssemblyName>` property in your `.csproj` file:
+     ```xml
+     <PropertyGroup>
+       <AssemblyName>WiiYiiHudNavigator.Plugin.YourProviderName</AssemblyName>
+     </PropertyGroup>
+     ```
+
+3. **Implement the required interfaces:**
+
+   Your plugin **must implement** both `INavigationIntegrationSetup` and `INavigationIntegrationInterface`:
 
    ```csharp
-   public interface INavigationIntegrationSetup
-   {
-       Guid Id { get; }
-       void SetupServices(IServiceCollection services);
-       StartNavigationIntegrationButton GetStartNavigationButton();
-       INavigationIntegrationInterface GetInterface();
-       void OnAppLoaded(IServiceProvider serviceProvider);
-   }
+    public interface INavigationIntegrationSetup
+    {
+	    Guid Id { get; }
+	    void SetupServices(MauiAppBuilder builder, IServiceCollection services);
+	    StartNavigationIntegrationButton GetStartNavigationButton();
+	    INavigationIntegrationInterface GetInterface();
+	    void OnAppLoaded(IServiceProvider serviceProvider);
+    }
 
-   public interface INavigationIntegrationInterface
-   {
-       INavigationIntegrationSetup Setup { get; }
-       ContentView? GetNavigationUiContent();
-       void OnAppLoaded();
-       void OnAppUnloaded();
-   }
+    public class StartNavigationIntegrationButton(
+	    string title,
+	    string shortDescription,
+	    string? iconFileFromMainApp,
+	    ImageSource? iconImageFromSource,
+	    string priceTagTitle)
+    {
+	    public string Title { get; init; } = title;
+	    public string ShortDescription { get; init; } = shortDescription;
+	    public string? IconFileFromMainApp { get; init; } = iconFileFromMainApp;
+	    public ImageSource? IconImageFromSource { get; init; } = iconImageFromSource;
+	    public string PriceTagTitle { get; init; } = priceTagTitle;
+    }
 
-   public record StartNavigationIntegrationButton(
-       string Title,
-       string ShortDescription,
-       string IconFile,
-       string PriceTagTitle
-   );
+    public interface INavigationIntegrationInterface
+    {
+	    INavigationIntegrationSetup Setup { get; }
+	    ContentView? GetNavigationUiContent();
+	    void OnAppLoaded();
+	    void OnAppUnloaded();
+    }
    ```
+
+   **About `StartNavigationIntegrationButton`:**
+   - `Title`: The main display name for your navigation integration
+   - `ShortDescription`: A brief description shown to users
+   - `IconFile`: Filename of the icon (must be included in your plugin's resources)
+   - `PriceTagTitle`: Optional pricing information (e.g., "Free", "Premium", "In-App Purchase")
 
 4. Build and test your plugin with the main app.
 
 5. Submit a **Pull Request** to share your plugin with the community!
+
+---
+
+## 🐛 Debugging Your Plugin on Android
+
+To test your plugin on Android devices during development:
+
+1. **Build your plugin DLL** from your plugin project.
+
+2. **Copy all DLL files** to the device at:
+   ```
+   /storage/emulated/0/Android/data/com.avashield.wiiyiihudnavigator/files/DebugIntegrations
+   ```
+   
+   Create the `DebugIntegrations` folder if it doesn't exist.
+
+   **Using ADB command:**
+   ```bash
+   adb push path/to/your/WiiYiiHudNavigator.Plugin.YourPlugin.dll /storage/emulated/0/Android/data/com.avashield.wiiyiihudnavigator/files/DebugIntegrations/
+   ```
+
+3. **Close the WiiYii HUD app** completely and reopen it.
+
+4. **Enable debug mode:**
+   - Navigate to the "Start Navigation Options" section
+   - **Press and hold for 3 seconds** on any icon in the section
+   - A debug menu will appear
+
+5. **Enable your plugin:**
+   - Check the checkbox next to your plugin's DLL
+   - Tap **"Save Changes"**
+
+6. **Restart the app** again.
+
+7. **Verify:** If all goes well, you'll see your plugin's button in the navigation options.
 
 ---
 

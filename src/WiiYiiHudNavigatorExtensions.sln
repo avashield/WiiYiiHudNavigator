@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WiiYiiHudNavigator.Common",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WiiYiiHudNavigator.NavigationIntegrationContracts", "WiiYiiHudNavigator.NavigationIntegrationContracts\WiiYiiHudNavigator.NavigationIntegrationContracts.csproj", "{52C803C4-6FEB-B1BF-823F-B26A1644ED83}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WiiYiiHudNavigator.SampleMap", "WiiYiiHudNavigator.SampleMap\WiiYiiHudNavigator.SampleMap.csproj", "{28A1FE37-AF8F-40AD-B5E9-C2DB544CEE84}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WiiYiiHudNavigator.Plugin.SampleMap", "WiiYiiHudNavigator.Plugin.SampleMap\WiiYiiHudNavigator.Plugin.SampleMap.csproj", "{72EF06C2-BA7A-767C-653C-5E8F92208103}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{52C803C4-6FEB-B1BF-823F-B26A1644ED83}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52C803C4-6FEB-B1BF-823F-B26A1644ED83}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52C803C4-6FEB-B1BF-823F-B26A1644ED83}.Release|Any CPU.Build.0 = Release|Any CPU
-		{28A1FE37-AF8F-40AD-B5E9-C2DB544CEE84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{28A1FE37-AF8F-40AD-B5E9-C2DB544CEE84}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{28A1FE37-AF8F-40AD-B5E9-C2DB544CEE84}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{28A1FE37-AF8F-40AD-B5E9-C2DB544CEE84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72EF06C2-BA7A-767C-653C-5E8F92208103}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72EF06C2-BA7A-767C-653C-5E8F92208103}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72EF06C2-BA7A-767C-653C-5E8F92208103}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72EF06C2-BA7A-767C-653C-5E8F92208103}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
