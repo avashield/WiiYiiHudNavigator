@@ -2,7 +2,6 @@
 
 public class HudNavigationData
 {
-
 	/// <summary>
 	/// Destination name
 	/// Extracted from: routeLegProgress.DestinationName
@@ -52,4 +51,14 @@ public class HudNavigationData
 	/// Extracted from: routeLegProgress.IsRerouting
 	/// </summary>
 	public bool IsRerouting { get; set; }
+
+	/// <summary>
+	/// Camera distance in meters (0 = cancel display, null = no action taken)
+	/// </summary>
+	public double? CameraDistance { get; set; }
+
+	/// <summary>
+	/// Lane guidance information (up to 12 lanes)
+	/// </summary>
+	public LaneGuidance? LaneGuidance { get; set; }
 }
