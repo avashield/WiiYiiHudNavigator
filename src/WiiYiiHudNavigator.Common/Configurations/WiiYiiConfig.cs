@@ -14,7 +14,8 @@ public static class WiiYiiConfig
 	public static readonly string HudBluetoothServiceUUID = "0000fee9-0000-1000-8000-00805f9b34fb";
 	public static readonly Guid HudBluetoothServiceUUIDGuid = Guid.Parse(HudBluetoothServiceUUID);
 
-	public static readonly TimeSpan DeviceScanTimeout = TimeSpan.FromSeconds(6);
+	public static readonly TimeSpan DeviceScanTimeout = TimeSpan.FromSeconds(3);
+	public static readonly TimeSpan DeviceBatchScanTimeout = TimeSpan.FromSeconds(7);
 	public static readonly TimeSpan ConnectTimeout = TimeSpan.FromSeconds(10);
 	public static readonly int ConnectRetryTimes = 3;
 	public static readonly TimeSpan ConnectRetryDelay = TimeSpan.FromMilliseconds(500);
