@@ -1,21 +1,21 @@
 # WiiYii HUD Companion App – Navigation Extension Repo
 
 The **WiiYii HUD Companion App** is an **unofficial companion application** for **WiiYii Smart HUD** devices.  
-It connects to WiiYii head-up display (HUD) units via **Bluetooth**, transmitting **real-time navigation data** from your phone directly to your car’s HUD — so you can drive safely with directions always in view.
+It connects to WiiYii head-up display (HUD) units via **Bluetooth**, transmitting **real-time navigation data** from your phone directly to your car’s HUD - so you can drive safely with directions always in view.
 
 This repository contains the **open-source plugin and extension framework** that powers the app’s navigation integrations.
 
 ---
 
-## 🧭 About the App
+## About the App
 
-The app uses your existing **Google Maps navigation** — meaning there’s **no need for a separate navigation system**.  
+The app uses your existing **Google Maps navigation** - meaning there’s **no need for a separate navigation system**.  
 However, its plugin-based design allows developers to add **support for additional navigation services**, such as:
 
-- 🗺️ **MapBox**
-- 🚗 **Waze**
-- 🌏 **Here WeGo**
-- 🧭 **OpenStreetMap (OSM)** and others
+- **MapBox**
+- **Waze**
+- **Here WeGo**
+- **OpenStreetMap (OSM)** and others
 
 ---
 
@@ -94,7 +94,7 @@ Plugins can be built in **.NET (C#)** as independent assemblies and loaded dynam
 
 ---
 
-## 🐛 Debugging Your Plugin on Android
+## Debugging Your Plugin on Android
 
 To test your plugin on Android devices during development:
 
@@ -129,7 +129,7 @@ To test your plugin on Android devices during development:
 
 ---
 
-## 📡 Communication Protocol
+## Communication Protocol
 
 The app communicates with WiiYii HUD devices via Bluetooth.
 
@@ -183,7 +183,7 @@ and call `NoNavigationData()` when no route is active.
 
 ---
 
-## 🧠 Example: Waze Plugin Concept
+## Example: Waze Plugin Concept
 
 A Waze integration could:
 
@@ -196,7 +196,7 @@ This allows real-time Waze navigation to appear on the WiiYii HUD, just like wit
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 We welcome contributions from the community!
 
@@ -216,7 +216,7 @@ Please follow the project’s **code style**, **naming conventions**, and **comm
 
 ---
 
-## 🛡️ Disclaimer
+## Disclaimer
 
 This is an **unofficial** project, created by an independent developer to enhance the functionality of **WiiYii Smart HUD** devices.
 It is **not affiliated with or endorsed by WiiYii** or its official partners.
@@ -225,7 +225,7 @@ Use at your own discretion.
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the **AGPL License**.
 You are free to use, modify, and distribute the code with proper attribution.
